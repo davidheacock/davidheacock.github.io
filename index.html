@@ -49,6 +49,7 @@ body, html {
         background-attachment: scroll;
     }
 }
+  
   ul {
     
     list-style-type: circle;
@@ -78,6 +79,10 @@ body, html {
 	width: 100%;
 	height:100%;
 }
+  
+  .remotesensing {
+    min-height: 850px;
+  }
   
   .noaastudy {
    display: block;
@@ -188,7 +193,7 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
 <div class="w3-container">
 </div>
 
-<div class="w3-content w3-display-container">
+<div class="w3-content w3-display-container remotesensing">
 
 <div class="w3-display-container mySlides">
   <img src="https://s7.postimg.org/65nifsud7/nasaearthobservingsatsresize.jpg" style="width:100%">
@@ -223,6 +228,11 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
 </div>
 
   <div class="w3-display-container mySlides">
+    </br>
+  </br>
+</br>
+
+  </br>
   <video id="mapvid" width="100%" loop autoplay>
     <source           src="https://svs.gsfc.nasa.gov/vis/a000000/a003900/a003912/ecco2_sst_flow.m4v" type="video/mp4">
     </video>
@@ -241,8 +251,8 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
 </div>
 
 
-<button class="w3-button w3-display-left w3-black" onclick="plusDivs(-1)">&#10094;</button>
-<button class="w3-button w3-display-right w3-black" onclick="plusDivs(1)">&#10095;</button>
+<button class="w3-button w3-display-left w3-black w3-display-hover" onclick="plusDivs(-1)">&#10094;</button>
+<button class="w3-button w3-display-right w3-black w3-display-hover" onclick="plusDivs(1)">&#10095;</button>
 
 </div> 
 </div>
@@ -338,8 +348,7 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
  
 
 <script>
-
-
+  
 
 
 // Change style of navbar on scroll
@@ -380,7 +389,8 @@ function showDivs(n) {
   }
   x[slideIndex-1].style.display = "block";  
 }
-  //chlorophyll video playback speed//
+  
+   //chlorophyll video playback speed//
   
   var vid = document.getElementById("mapvid");
 vid.playbackRate = 2.5;
