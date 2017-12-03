@@ -60,6 +60,11 @@ body, html {
     width: 100%;
   }
   
+  .modisimage{
+    display: block;
+    margin: auto;
+    width: 100%;
+  }
   .footerimage {
     width:200px;
   }
@@ -88,6 +93,11 @@ body, html {
    display: block;
     margin: auto;
     width: 100%;
+  }
+  
+  .boldclass {
+    font-weight: bold;
+    text-align: center;
   }
   
 </style>
@@ -131,25 +141,26 @@ body, html {
 <!-- Container (About Section) -->
 <div class="w3-content w3-container w3-padding-64" id="about">
   <h3 class="w3-center">COMMERCIAL TUNA FISHING</h3>
-  </br>
-  <p>Over the last several decades the demand for tuna has increased rapidly around the world. The tuna market alone accounts for over $42 billion of the global economy – a figure greater than the GDP of at least 108 countries.<sup><a href="#fn1" id="ref1">1</a></sup> With such high demand and competition, tuna populations have faced high volatility, sparking great concern from scientists, politicians, and businessmen who seek to preserve the species’ place in markets and ecosystems.</p>
+  <p class="w3-center">Over the last several decades the demand for tuna has increased rapidly around the world. The tuna market alone accounts for over $42 billion of the global economy – a figure greater than the GDP of at least 108 countries.<sup><a href="#fn1" id="ref1">1</a></sup> With such high demand and competition, tuna populations have faced high volatility, sparking great concern from scientists, politicians, and businessmen who seek to preserve the species’ place in markets and ecosystems.</p>
   </br>
   </br>
    <div class="w3-center video-container">
     <iframe width="720" height="405" src="https://www.youtube.com/embed/i5mMI8t7vV0?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
   </div>
-<p><em>Video Source: <a href="http://www.bbc.co.uk/programmes/b00l7q55">BBC Two: Tuna Fishing - South Pacific</a></em></p>
+<p><em>An example of what commercial tuna fishing looks like in in the South Pacific.
+  </br>
+  Video Source: <a href="http://www.bbc.co.uk/programmes/b00l7q55">BBC Two: Tuna Fishing - South Pacific</a></em></p>
   </br>
   <h3 class="w3-center">ABOUT TUNA:</h3>
   <div class="w3-row">
     <div class="w3-col m6 w3-center w3-padding-large">
       </br>
-      <img src="https://1pl6pt2k9xw127c0bx3rl22s-wpengine.netdna-ssl.com/wp-content/gallery/tuna/Itano_ITAN0_IMG_1249.jpg" class="w3-round w3-image " alt="School of Tuna" width="500" height="333">
+      <img src="https://s7.postimg.org/5582x6q8r/itanotunaresized.jpg" class="w3-round w3-image" alt="School of Tuna" width="500" height="333">
    
   </br>
   </br>
  
-    <img src="http://www.oliverstrewe.com/page/managed_code/uploads/Frozen_tuna_Tsukiji_Market_Tokyo_full.jpg" class="w3-round w3-image " alt="Tuna Market" width="500" height="400">
+    <img src="https://s7.postimg.org/v0rtgdkcr/frozentunamarketresized.jpg" class="w3-round w3-image " alt="Tuna Market" width="500" height="400">
     </div>
 
   
@@ -184,10 +195,12 @@ body, html {
 <div class="w3-content w3-container w3-padding-64" id="portfolio">
   <h3 class="w3-center">WHAT IS REMOTE SENSING?</h3>
   <p class="w3-center">Remote Sensing is the science of collecting and interpreting data about the surface of the earth from a distance using sensors that capture electromagnetic radiation, sound waves, or other forms of energy. Most people are familiar with using aerial images for navigation, or radar maps to observe weather patterns, however there are many other useful applications of remote sensing to study the world around us.
+
+While we <em>can't</em> just look at high resolution satellite images and see where tuna are swimming, we <em>can</em> observe several environmental features that strongly correlate to optimal tuna habitats.</p>
   </br>
-</br>
-While we <em>can't</em> just look at high resolution satellite images and see where tuna are swimming, we <em>can</em> observe several environmental features that strongly correlate to optimal tuna habitats. Click through the slideshow below to learn more about remote sensing and how we can use it to help us monitor tuna populations.
-  </p><br>
+<p class="boldclass">Click through the slideshow below to learn more about remote sensing and how we can use it to help us monitor tuna populations:
+</p>
+  <br>
 
 
 <div class="w3-container">
@@ -206,27 +219,44 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
 <div class="w3-display-container mySlides">
   <img src="https://s7.postimg.org/7cwuuhsln/SSTmapresized.jpg" style="width:100%">
   <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    This is an image produced by NASA showing variations in sea surface temperature across the globe. Tuna are highly sensetive to temperature variations making it a useful metric for locating schools.
-    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/3652">NASA</a></em></p>
+    This is an image produced by NASA showing variations in sea surface temperature (SST) across the globe. Tuna are highly sensetive to temperature variations, and depending on the season, fishermen will target different ranges of SST to predict tuna school locations.
+    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/3652">NASA/Goddard Space Flight Center Scientific Visualization Studio</a></em></p>
   </div>
 </div>
   
 <div class="w3-display-container mySlides">
   <img src="https://s7.postimg.org/58chtej97/chlorophyllmapresized.jpg" style="width:100%">
   <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    Chlorophyll is one sign of life that we can observe via satellite imagery. This is an image produced by NASA showing variations in chlorophyll density across the globe. Chlorophyll is the key indicator of plankton health, which are ultimately consumed by forage fish such as sardines. Chlorophyll analysis is key to identifying prime tuna feeding grounds.
-    <p><em>Image credit: <a href="https://www.nasa.gov/vision/earth/lookingatearth/plankton.html">NASA</a></em></p>
+    Chlorophyll is one sign of life that we can observe via satellite imagery. This is a compliation of MODIS images showing variations in chlorophyll density across the globe. Chlorophyll is a key indicator of plankton health, which are consumed by forage fish such as sardines. This makes chlorophyll analysis key to identifying prime tuna feeding grounds.
+    <p><em>Image credit: <a href="https://www.nasa.gov/vision/earth/lookingatearth/plankton.html">NASA/Goddard Space Flight Center</a></em></p>
   </div>
 </div>
   
+ <!-- blocked out slide 
 <div class="w3-display-container mySlides">
   <img src="https://s7.postimg.org/bk02slbe3/seasurfheightresize.jpg" style="width:100%">
   <div class="w3-display-below w3-container w3-padding-16 w3-white ">
     This image shows sea surface height anomolies. These occurrences can indicate events such as ocean upwelling or eddies which cause nutrients from colder water to come to the surface, stirring activity in the food chain.
-    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/vis/a030000/a030500/a030502/radar_ssha_jul_2011.jpg">NASA</a></em></p>
+    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/vis/a030000/a030500/a030502/radar_ssha_jul_2011.jpg">PODAAC</a></em></p>
   </div>
 </div>
+-->
+<!-- Trial Slide-->
+  
+  <div class="w3-display-container mySlides">
+    </br>
+  </br>
 
+  </br>
+  <video id="SSAvid" width="100%" loop autoplay>
+    <source           src="https://svs.gsfc.nasa.gov/vis/a030000/a030500/a030501/ccar_ssha_1950-2009_2304p.mp4" type="video/mp4">
+    </video>
+  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
+    This animation shows sea surface height (SSH) anomolies caused by thermal expansion in the ocean. These occurrences can indicate events such as upwelling or eddies which cause nutrients from colder water to come to the surface, stirring activity in the food chain. A scientist or fisherman would look at just one of these frames to see the most current SSH data. These images were captured using data from a radar altimeter and are accurate to 3 centimeters. 
+    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/30501">PODAAC</a></em></p>
+  </div>
+</div>
+  
   <div class="w3-display-container mySlides">
     </br>
   </br>
@@ -237,8 +267,8 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
     <source           src="https://svs.gsfc.nasa.gov/vis/a000000/a003900/a003912/ecco2_sst_flow.m4v" type="video/mp4">
     </video>
   <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    By combining multiple types of data and performing time series analyses we can really harness all the power that remote sensing can offer. This animation shows global sea surface currents, colorized by surface temperature. 
-    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/3912">NASA</a></em></p>
+    By combining multiple types of data and performing time series analyses we can really harness all the power that remote sensing can offer. This animation shows global sea surface currents, colorized by surface temperature. Factoring SST, SSH, chlorophyll density, field data, and other sources into one model allows scientists to make the most accurate predictions possible.
+    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/3912">NASA/Goddard Space Flight Center Scientific Visualization Studio</a></em></p>
   </div>
 </div>
   
@@ -250,6 +280,21 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
   </div>
 </div>
 
+<div class="w3-display-container mySlides">
+  <img src="https://s7.postimg.org/5u9etfxqj/ROFFsstimageresizeblacks.jpg" style="width:100%">
+  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
+    This map, produced by a commercial fishing forecasting service, looks at the U.S. Atlantic coast using SST and includes water currents. If anything, governments and regulatory bodies are playing catch-up to fisherman who have been utilizing satellite imagery in their operations for decades.
+    <p><em>Image credit: <a href="https://www.roffs.com/2017/04/roffs-northeast-u-s-early-season-preview-2017-fishing-action-starting-warm-already-lots-fish-expected-may/">Roffer's Ocean Fishing Forecasting Service, Inc.</a></em></p>
+  </div>
+</div>
+
+<div class="w3-display-container mySlides">
+  <img src="https://s7.postimg.org/ivzowy3rv/NOAAstudyresized.jpg" style="width:100%">
+  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
+    Studies like this demonstrate how remotely sensed imagery, combined with field data and scientific analysis, can play a major role in how we study the health of our planet. With such a broad scope of observation required to tackle a challenge like tracking the global tuna population, satellite imagery becomes a clear and necesarry asset when in search of helpful data. 
+    <p><em>Image credit: <a href="http://slideplayer.com/slide/6334739/">Barbara Muhling (SFSC-NOAA)</a></em></p>
+  </div>
+</div>
 
 <button class="w3-button w3-display-left w3-black w3-display-hover" onclick="plusDivs(-1)">&#10094;</button>
 <button class="w3-button w3-display-right w3-black w3-display-hover" onclick="plusDivs(1)">&#10095;</button>
@@ -270,7 +315,7 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
 <!-- Container (Contact Section) -->
 <div class="w3-content w3-container w3-padding-64" id="contact">
   <h3 class="w3-center">ABOUT MODIS:</h3>
-  <p>MODIS (or Moderate Resolution Imaging Spectroradiometer) serves as the sensory instrument aboard NASA's Terra and Aqua satellites. Terra and Aqua work in tandem to orbit the earth, passing each area roughly three hours apart optimizing cloud-free viewing opportunities.<sup><a href="#fn6" id="ref6">6</a></sup> The entire world surface is covered in 1-2 days in 36 discrete spectral bands including visible light and infrared radiation.<sup><a href="#fn7" id="ref7">7</a></sup> Between the two sensors, nearly 500 million images are collected every day, providing scientists with an incredible amount of data to observe environmental changes around the world.<sup><a href="#fn8" id="ref8">8</a>   </p>
+  <p class="w3-center">MODIS (or Moderate Resolution Imaging Spectroradiometer) serves as the sensory instrument aboard NASA's Terra and Aqua satellites. Terra and Aqua work in tandem to orbit the earth, passing each area roughly three hours apart optimizing cloud-free viewing opportunities.<sup><a href="#fn6" id="ref6">6</a></sup> The entire world surface is covered in 1-2 days in 36 discrete spectral bands including visible light and infrared radiation.<sup><a href="#fn7" id="ref7">7</a></sup> Between the two sensors, nearly 500 million images are collected every day, providing scientists with an incredible amount of data to observe environmental changes around the world.<sup><a href="#fn8" id="ref8">8</a>   </p>
   </br>
 
 <video id="modisvid" width="100%" loop autoplay>
@@ -278,15 +323,28 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
     </video>
   <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/vis/a000000/a003300/a003348/">NASA</a></em></p>
 <p>The animation above shows the Aqua satellite traveling in its sun-synchronous, near-polar orbit. It circles the earth every 99 minutes, passing within 10 degrees of each pole on every orbit. The whitish, opaque imagery that appears around the satellite represents its swath - the earth area captured by the sensor during its pass</p>
-
 </br>
 </br>
-<img src="http://images.slideplayer.com/22/6334739/slides/slide_8.jpg" alt="NOAA Tuna Study" class="noaastudy">
-<p><em>Image credit: <a href="http://slideplayer.com/slide/6334739/">Barbara Muhling (SFSC-NOAA)</a></em></p>
-<p>Studies like the one shown above demonstrate how MODIS imagery combined with field data and scientific analysis can play a major role in how we study the health of our planet. With such a broad scope of observation required to tackle a challenge like tracking the global tuna population, MODIS imagery becomes a clear and necesarry asset when in search of helpful data.   
-</p>
+<h3 class="w3-center">MODIS IMAGERY:</h3>
+</br>
+<div>
+ <img src="https://s7.postimg.org/i7vfry4sb/bathurstislandresized.jpg" class="w3-round w3-image modisimage" alt="Bathurst Island MODIS Image">
+  <p><em>A clear shot of smoke and sediment in the water surrounding Bathurst Island in Australia; June 19, 2017
+    </br>
+  Image credit: <a href="https://visibleearth.nasa.gov/view.php?id=90433">NASA</a></em></p>
+  </br>
+ <img src="https://s7.postimg.org/eo9i25p7v/libyafireresized.jpg" class="w3-round w3-image modisimage" alt="Libya Fire MODIS Image">
+<p><em>Travel of smoke plumes from an oil tank fire in Libya; January 6, 2016
+    </br>Image credit: <a href="https://visibleearth.nasa.gov/view.php?id=87285">NASA</a></em></p>
+</br>
+ <img src="https://s7.postimg.org/679zr0fbf/mississippifloodingresized.jpg" class="w3-round w3-image modisimage" alt="Mississippe Flooding MODIS Image">
+<p><em>Flooding in the Mississippi River basin; March 14, 2016
+  </br>
+  Image credit: <a href="https://visibleearth.nasa.gov/view.php?id=87695">NASA</a></em></p>
+</div>
 
-<p>There is a tremendous amount of work being done in this field in hopes of finding a sustainable answer to how tuna stocks can be maintained at a healthy level. See below for links to the articles referenced on this page and for additional reading on this topic. </p>
+</br>
+<p class="w3-center">There is a significant amount of work being done in the field of tuna conservation in hopes of finding a sustainable answer to how stocks can be maintained at a healthy level. See below for links to the articles referenced on this page and for additional reading on this topic. </p>
   </div>
 </div>
 
@@ -294,7 +352,11 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
 <footer class="w3-center w3-black w3-padding-64" id="references">
   <div class="w3-section">
     <img src="https://s7.postimg.org/xyi9fwusb/SSUlogo.png" alt="SSU logo" class="footerimage">
-    <p>Made for GPH 909 by David Heacock</p>
+    <p>Made for GPH 909 by David Heacock
+    </br>
+  Last Updated 12/1/2017
+  </p>
+
     <p>For educational purposes only</p>
     <t>References:</t>
     <br>
@@ -343,6 +405,11 @@ While we <em>can't</em> just look at high resolution satellite images and see wh
 <a href="https://www.nasa.gov/images/content/107324main_map.jpg">NASA: The Mathematical Ocean: Deriving Planetary Health from Tiny Ocean Plants </a>
 </br>
 <a href="https://earthobservatory.nasa.gov/IOTD/view.php?id=39863">NASA: Flying Steady: Mission Control Tunes Up Aqua's Orbit </a>
+</br>
+<a href="https://1pl6pt2k9xw127c0bx3rl22s-wpengine.netdna-ssl.com/wp-content/gallery/tuna/Itano_ITAN0_IMG_1249.jpg">Tuna School: International Seafood Sustainability Foundation</a>
+</br>
+<a href="http://www.oliverstrewe.com/page/managed_code/uploads/Frozen_tuna_Tsukiji_Market_Tokyo_full.jpg">Tsukiji Market Tokyo: Oliver Strewe Photography</a>
+</br>
 
 </footer>
  
@@ -390,6 +457,8 @@ function showDivs(n) {
   x[slideIndex-1].style.display = "block";  
 }
   
+  
+  
    //chlorophyll video playback speed//
   
   var vid = document.getElementById("mapvid");
@@ -398,6 +467,9 @@ vid.playbackRate = 2.5;
    //chlorophyll video playback speed//
   
   var vid = document.getElementById("modisvid");
+vid.playbackRate = .5;
+  
+    var vid = document.getElementById("SSAvid");
 vid.playbackRate = .5;
   
 
