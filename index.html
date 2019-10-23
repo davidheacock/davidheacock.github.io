@@ -1,478 +1,147 @@
 
+<!DOCTYPE html>
 <html>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<head>
+	
+	<title>Greenbelt MasterMap Test in Leaflet</title>
+
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="shortcut icon" type="image/x-icon" href="docs/images/favicon.ico" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.5.1/dist/leaflet.css" integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ==" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.5.1/dist/leaflet.js" integrity="sha512-GffPMF3RvMeYyc1LWMHtK8EbPv0iNZ8/oTtHPx9/cc2ILxQ+u905qIwdpULaqDkyBKgOaB57QTMg7ztg8Jm2Og==" crossorigin=""></script>
 <style>
-body,h1,h2,h3,h4,h5,h6 {font-family: "Lato", sans-serif;}
-body, html {
-    height: 100%;
-    color: #777;
-    line-height: 1.8;
+    body { margin:0; padding:0; }
+    #map { position: absolute; top:0; bottom:0; right:0; left:0; }
+
+    .leaflet-control-locate a {
+  font-size: 1.4em;
+  color: #444;
+  cursor: pointer;
+}
+.leaflet-control-locate.active a {
+  color: #2074B6;
+}
+.leaflet-control-locate.active.following a {
+  color: #FC8428;
 }
 
-/* Create a Parallax Effect */
-.bgimg-1, .bgimg-2, .bgimg-3 {
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
+.leaflet-control-locate-location circle {
+  animation: leaflet-control-locate-throb 4s ease infinite;
 }
 
-/* First image (Logo. Full height) */
-.bgimg-1 {
-    background-image: url("https://s8.postimg.org/uk6kcblv9/Ep404_007_Wicked_Tuna_IV.jpg");
-    min-height: 100%;
-}
-
-/* Second image (Portfolio) */
-.bgimg-2 {
-    background-image: url("https://s8.postimg.org/vet3yhywl/clorophyllmapsmaller.jpg");
-    min-height: 100%;
-}
-
-/* Third image (Contact) */
-.bgimg-3 {
-    background-image: url("https://eoimages.gsfc.nasa.gov/images/imagerecords/39000/39863/aqua_render_lrg.jpg");
-    min-height: 100%;
-}
-
-.w3-wide {letter-spacing: 10px;}
-.w3-hover-opacity {cursor: pointer;}
-  
-
-/* Turn off parallax scrolling for tablets and phones */
-@media only screen and (max-device-width: 1024px) {
-    .bgimg-1, .bgimg-2, .bgimg-3 {
-        background-attachment: scroll;
-    }
-}
-  
-  ul {
-    
-    list-style-type: circle;
- }
-  
-  .mySlides {
-    margin: auto;
-    width: 100%;
+@keyframes leaflet-control-locate-throb {
+  0% {
+    r: 9;
+    stroke-width: 1;
   }
-  
-  .modisimage{
-    display: block;
-    margin: auto;
-    width: 100%;
+  50% {
+    r: 7;
+    stroke-width: 3;
   }
-  .footerimage {
-    width:200px;
+  100% {
+    r: 9;
+    stroke-width: 1;
   }
-  
-  .video-container {
-	position:relative;
-	padding-bottom:56.25%;
-	padding-top:30px;
-	height:0;
-	overflow:hidden;
 }
-
-.video-container iframe, .video-container object, .video-container embed {
-	position:absolute;
-	top:0;
-	left:0;
-	width: 100%;
-	height:100%;
-}
-  
-  .remotesensing {
-    min-height: 850px;
-  }
-  
-  .noaastudy {
-   display: block;
-    margin: auto;
-    width: 100%;
-  }
-  
-  .boldclass {
-    font-weight: bold;
-    text-align: center;
-  }
-  
 </style>
+
+	
+</head>
 <body>
 
-<!-- Navbar (sit on top) -->
-<div class="w3-top">
-  <div class="w3-bar" id="myNavbar">
-    <a class="w3-bar-item w3-button w3-hover-black w3-hide-medium w3-hide-large w3-right" href="javascript:void(0);" onclick="toggleFunction()" title="Toggle Navigation Menu">
-      <i class="fa fa-bars"></i>
-    </a>
-    <a href="#home" class="w3-bar-item w3-button">HOME</a>
-    <a href="#about" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> COMMERCIAL TUNA FISHING</a>
-    <a href="#portfolio" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> REMOTE SENSING</a>
-    <a href="#contact" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> MODIS</a>
-    
-    <a href="#references" class="w3-bar-item w3-button w3-hide-small"><i class="fa fa-th"></i> REFERENCES</a>
-    
-    <a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-red">
-      
-    </a>
-  </div>
-
-  <!-- Navbar on small screens -->
-  <div id="navDemo" class="w3-bar-block w3-white w3-hide w3-hide-large w3-hide-medium">
-    <a href="#about" class="w3-bar-item w3-button" onclick="toggleFunction()">COMMERCIAL TUNA FISHING</a>
-    <a href="#portfolio" class="w3-bar-item w3-button" onclick="toggleFunction()">REMOTE SENSING</a>
-    <a href="#contact" class="w3-bar-item w3-button" onclick="toggleFunction()">MODIS</a>
-    
-<a href="#references" class="w3-bar-item w3-button" onclick="toggleFunction()">REFERENCES</a>
-  </div>
-</div>
-
-<!-- First Parallax Image with Logo Text -->
-<div class="bgimg-1 w3-display-container" id="home">
-  <div class="w3-display-middle" style="white-space:nowrap;">
-    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-opacity-min">TUNA FISHING AND REMOTE SENSING<span class="w3-hide-small"></span> </span>
-  </div>
-</div>
-
-<!-- Container (About Section) -->
-<div class="w3-content w3-container w3-padding-64" id="about">
-  <h3 class="w3-center">COMMERCIAL TUNA FISHING</h3>
-  <p class="w3-center">Over the last several decades the demand for tuna has increased rapidly around the world. The tuna market alone accounts for over $42 billion of the global economy – a figure greater than the GDP of at least 108 countries.<sup><a href="#fn1" id="ref1">1</a></sup> With such high demand and competition, tuna populations have faced high volatility, sparking great concern from scientists, politicians, and businessmen who seek to preserve the species’ place in markets and ecosystems.</p>
-  </br>
-  </br>
-   <div class="w3-center video-container">
-    <iframe width="720" height="405" src="https://www.youtube.com/embed/i5mMI8t7vV0?rel=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
-  </div>
-<p><em>An example of what commercial tuna fishing looks like in in the South Pacific.
-  </br>
-  Video Source: <a href="http://www.bbc.co.uk/programmes/b00l7q55">BBC Two: Tuna Fishing - South Pacific</a></em></p>
-  </br>
-  <h3 class="w3-center">ABOUT TUNA:</h3>
-  <div class="w3-row">
-    <div class="w3-col m6 w3-center w3-padding-large">
-      </br>
-      <img src="https://s7.postimg.org/5582x6q8r/itanotunaresized.jpg" class="w3-round w3-image" alt="School of Tuna" width="500" height="333">
-   
-  </br>
-  </br>
- 
-    <img src="https://s7.postimg.org/v0rtgdkcr/frozentunamarketresized.jpg" class="w3-round w3-image " alt="Tuna Market" width="500" height="400">
-    </div>
-
-  
-    <div class="w3-col m6  w3-padding-large">
-      </br>
-</br>
-      <div >
-      <ul>Tuna are powerful, migratory fish that are constantly on the hunt for their next meal. Each day they consume roughly a quarter of their bodyweight in forage fish which include sardines, sand lances, and sauries.<sup><a href="#fn2" id="ref2">2</a></sup> </ul>
-        <ul>Migration patterns for tuna can be thousands of miles long and span multiple continents. There are over 70 countries that harvest the species, making it a challenge to validate catch numbers and coordinate regulatory efforts.<sup><a href="#fn3" id="ref3">3</a></sup>
-        </ul>
-        <ul>The scombridae family of fish, to which tuna belong, fell by 74% between 1970 and 2012. outpacing a decline of 49% for 1,234 ocean species over that same time.<sup><a href="#fn4" id="ref4">4</a></sup>
-        </ul>
-        <ul>The Atlantic bluefin tuna, known for its delicacy status in Japanese cuisine, has fallen to just 2.6% of its historic size, however, two major global fisheries commissions recently agreed to tighten regulations on bluefin tuna with hopes of restoring the population to 20% of its historic size by 2034.<sup><a href="#fn5" id="ref5">5</a></sup>
-        </ul>
-      </div>
-    </div>
-  </div>
-  
-  </div>
-</div>
 
 
+<div id="map" ></div>
 
-<!-- Second Parallax Image with Portfolio Text -->
-<div class="bgimg-2 w3-display-container ">
-  <div class="w3-display-middle">
-    <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-opacity-min">REMOTE SENSING<span class="w3-hide-small"></span> </span>
-  </div>
-</div>
-
-<!-- Container (Portfolio Section) -->
-<div class="w3-content w3-container w3-padding-64" id="portfolio">
-  <h3 class="w3-center">WHAT IS REMOTE SENSING?</h3>
-  <p class="w3-center">Remote Sensing is the science of collecting and interpreting data about the surface of the earth from a distance using sensors that capture electromagnetic radiation, sound waves, or other forms of energy. Most people are familiar with using aerial images for navigation, or radar maps to observe weather patterns, however there are many other useful applications of remote sensing to study the world around us.
-
-While we <em>can't</em> just look at high resolution satellite images and see where tuna are swimming, we <em>can</em> observe several environmental features that strongly correlate to optimal tuna habitats.</p>
-  </br>
-<p class="boldclass">Click through the slideshow below to learn more about remote sensing and how we can use it to help us monitor tuna populations:
-</p>
-  <br>
-
-
-<div class="w3-container">
-</div>
-
-<div class="w3-content w3-display-container remotesensing">
-
-<div class="w3-display-container mySlides">
-  <img src="https://s7.postimg.org/65nifsud7/nasaearthobservingsatsresize.jpg" style="width:100%">
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    While satellites may be miles above the earth's surface, their constant output of data gives us a unique look into global environmental trends. Some satellites, such as Landsat, capture imagery of the entire earth. Others, such as SeaWIFS, focus solely on the ocean and its biological data.
-  <p><em>Image credit: <a href="https://mls.jpl.nasa.gov/images/A-train_150.jpg">NASA</a></em></p>
-  </div>
-</div>
-  
-<div class="w3-display-container mySlides">
-  <img src="https://s7.postimg.org/7cwuuhsln/SSTmapresized.jpg" style="width:100%">
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    This is an image produced by NASA showing variations in sea surface temperature (SST) across the globe. Tuna are highly sensetive to temperature variations, and depending on the season, fishermen will target different ranges of SST to predict tuna school locations.
-    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/3652">NASA/Goddard Space Flight Center Scientific Visualization Studio</a></em></p>
-  </div>
-</div>
-  
-<div class="w3-display-container mySlides">
-  <img src="https://s7.postimg.org/58chtej97/chlorophyllmapresized.jpg" style="width:100%">
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    Chlorophyll is one sign of life that we can observe via satellite imagery. This is a compliation of MODIS images showing variations in chlorophyll density across the globe. Chlorophyll is a key indicator of plankton health, which are consumed by forage fish such as sardines. This makes chlorophyll analysis key to identifying prime tuna feeding grounds.
-    <p><em>Image credit: <a href="https://www.nasa.gov/vision/earth/lookingatearth/plankton.html">NASA/Goddard Space Flight Center</a></em></p>
-  </div>
-</div>
-  
- <!-- blocked out slide 
-<div class="w3-display-container mySlides">
-  <img src="https://s7.postimg.org/bk02slbe3/seasurfheightresize.jpg" style="width:100%">
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    This image shows sea surface height anomolies. These occurrences can indicate events such as ocean upwelling or eddies which cause nutrients from colder water to come to the surface, stirring activity in the food chain.
-    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/vis/a030000/a030500/a030502/radar_ssha_jul_2011.jpg">PODAAC</a></em></p>
-  </div>
-</div>
--->
-<!-- Trial Slide-->
-  
-  <div class="w3-display-container mySlides">
-    </br>
-  </br>
-
-  </br>
-  <video id="SSAvid" width="100%" loop autoplay>
-    <source           src="https://svs.gsfc.nasa.gov/vis/a030000/a030500/a030501/ccar_ssha_1950-2009_720p.mp4" type="video/mp4">
-    </video>
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    This animation shows sea surface height (SSH) anomolies caused by thermal expansion in the ocean. These occurrences can indicate events such as upwelling or eddies which cause nutrients from colder water to come to the surface, stirring activity in the food chain. A scientist or fisherman would look at just one of these frames to see the most current SSH data. These images were captured using data from a radar altimeter and are accurate to 3 centimeters. 
-    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/30501">PODAAC</a></em></p>
-  </div>
-</div>
-  
-  <div class="w3-display-container mySlides">
-    </br>
-  </br>
-</br>
-
-  </br>
-  <video id="mapvid" width="100%" loop autoplay>
-    <source           src="https://svs.gsfc.nasa.gov/vis/a000000/a003900/a003912/ecco2_sst_flow.m4v" type="video/mp4">
-    </video>
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    By combining multiple types of data and performing time series analyses we can really harness all the power that remote sensing can offer. This animation shows global sea surface currents, colorized by surface temperature. Factoring SST, SSH, chlorophyll density, field data, and other sources into one model allows scientists to make the most accurate predictions possible.
-    <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/3912">NASA/Goddard Space Flight Center Scientific Visualization Studio</a></em></p>
-  </div>
-</div>
-  
-<div class="w3-display-container mySlides">
-  <img src="https://s17.postimg.org/ic9zljvtb/tunacatchratesmapresized.jpg" style="width:100%">
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    Here is an example of how remote sensing has been applied to forecast tuna catch rates in the South Pacific. The color gradient represents predicted catch rates and the solid circles represent observed catch rates over a 15-day period.
-    <p><em>Image credit: <a href="http://www.mdpi.com:8080/2072-4292/9/5/444">Remote Sensing Journal</a></em></p>
-  </div>
-</div>
-
-<div class="w3-display-container mySlides">
-  <img src="https://s7.postimg.org/5u9etfxqj/ROFFsstimageresizeblacks.jpg" style="width:100%">
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    This map, produced by a commercial fishing forecasting service, looks at the U.S. Atlantic coast using SST and includes water currents. If anything, governments and regulatory bodies are playing catch-up to fisherman who have been utilizing satellite imagery in their operations for decades.
-    <p><em>Image credit: <a href="https://www.roffs.com/2017/04/roffs-northeast-u-s-early-season-preview-2017-fishing-action-starting-warm-already-lots-fish-expected-may/">Roffer's Ocean Fishing Forecasting Service, Inc.</a></em></p>
-  </div>
-</div>
-
-<div class="w3-display-container mySlides">
-  <img src="https://s7.postimg.org/ivzowy3rv/NOAAstudyresized.jpg" style="width:100%">
-  <div class="w3-display-below w3-container w3-padding-16 w3-white ">
-    Studies like this demonstrate how remotely sensed imagery, combined with field data and scientific analysis, can play a major role in how we study the health of our planet. With such a broad scope of observation required to tackle a challenge like tracking the global tuna population, satellite imagery becomes a clear and necesarry asset when in search of helpful data. 
-    <p><em>Image credit: <a href="http://slideplayer.com/slide/6334739/">Barbara Muhling (SFSC-NOAA)</a></em></p>
-  </div>
-</div>
-
-<button class="w3-button w3-display-left w3-black w3-display-hover" onclick="plusDivs(-1)">&#10094;</button>
-<button class="w3-button w3-display-right w3-black w3-display-hover" onclick="plusDivs(1)">&#10095;</button>
-
-</div> 
-</div>
-
-<!-- Modal for full size images on click-->
-
-
-<!-- Third Parallax Image with Portfolio Text -->
-<div class="bgimg-3 w3-display-container">
-  <div class="w3-display-middle">
-     <span class="w3-center w3-padding-large w3-black w3-xlarge w3-wide w3-opacity-min">MODIS<span class="w3-hide-small"></span> </span>
-  </div>
-</div>
-
-<!-- Container (Contact Section) -->
-<div class="w3-content w3-container w3-padding-64" id="contact">
-  <h3 class="w3-center">ABOUT MODIS:</h3>
-  <p class="w3-center">MODIS (or Moderate Resolution Imaging Spectroradiometer) serves as the sensory instrument aboard NASA's Terra and Aqua satellites. Terra and Aqua work in tandem to orbit the earth, passing each area roughly three hours apart optimizing cloud-free viewing opportunities.<sup><a href="#fn6" id="ref6">6</a></sup> The entire world surface is covered in 1-2 days in 36 discrete spectral bands including visible light and infrared radiation.<sup><a href="#fn7" id="ref7">7</a></sup> Between the two sensors, nearly 500 million images are collected every day, providing scientists with an incredible amount of data to observe environmental changes around the world.<sup><a href="#fn8" id="ref8">8</a>   </p>
-  </br>
-
-<video id="modisvid" width="100%" loop autoplay>
-    <source           src="https://svs.gsfc.nasa.gov/vis/a000000/a003300/a003348/aquacomp720rot.mp4" type="video/mp4">
-    </video>
-  <p><em>Image credit: <a href="https://svs.gsfc.nasa.gov/vis/a000000/a003300/a003348/">NASA</a></em></p>
-<p>The animation above shows the Aqua satellite traveling in its sun-synchronous, near-polar orbit. It circles the earth every 99 minutes, passing within 10 degrees of each pole on every orbit. The whitish, opaque imagery that appears around the satellite represents its swath - the earth area captured by the sensor during its pass</p>
-</br>
-</br>
-<h3 class="w3-center">MODIS IMAGERY:</h3>
-</br>
-<div>
- <img src="https://s7.postimg.org/i7vfry4sb/bathurstislandresized.jpg" class="w3-round w3-image modisimage" alt="Bathurst Island MODIS Image">
-  <p><em>A clear shot of smoke and sediment in the water surrounding Bathurst Island in Australia; June 19, 2017
-    </br>
-  Image credit: <a href="https://visibleearth.nasa.gov/view.php?id=90433">NASA</a></em></p>
-  </br>
- <img src="https://s7.postimg.org/eo9i25p7v/libyafireresized.jpg" class="w3-round w3-image modisimage" alt="Libya Fire MODIS Image">
-<p><em>Travel of smoke plumes from an oil tank fire in Libya; January 6, 2016
-    </br>Image credit: <a href="https://visibleearth.nasa.gov/view.php?id=87285">NASA</a></em></p>
-</br>
- <img src="https://s7.postimg.org/679zr0fbf/mississippifloodingresized.jpg" class="w3-round w3-image modisimage" alt="Mississippe Flooding MODIS Image">
-<p><em>Flooding in the Mississippi River basin; March 14, 2016
-  </br>
-  Image credit: <a href="https://visibleearth.nasa.gov/view.php?id=87695">NASA</a></em></p>
-</div>
-
-</br>
-<p class="w3-center">There is a significant amount of work being done in the field of tuna conservation in hopes of finding a sustainable answer to how stocks can be maintained at a healthy level. See below for links to the articles referenced on this page and for additional reading on this topic. </p>
-  </div>
-</div>
-
-<!-- Footer -->
-<footer class="w3-center w3-black w3-padding-64" id="references">
-  <div class="w3-section">
-    <img src="https://s7.postimg.org/xyi9fwusb/SSUlogo.png" alt="SSU logo" class="footerimage">
-    <p>Made for GPH 909 by David Heacock
-    </br>
-  Last Updated 12/1/2017
-  </p>
-
-    <p>For educational purposes only</p>
-    <t>References:</t>
-    <br>
-    <a id="fn1"href="http://www.pewtrusts.org/en/about/news-room/press-releases/2016/05/02/pew-tuna-contributes-at-least-42-2-billion-annually-to-global-economy"> 1. Pew: Tuna Contributes at Least $42.2 Billion Annually to Global Economy</a><a href="#ref1" title="Jump back to footnote 1 in the text."> ↩</a>
-    </br>
-     <a id="fn2" href="http://www.pewtrusts.org/en/research-and-analysis/analysis/2015/09/29/forage-fish-fuel-tunas-high-octane-diet">2. Forage Fish Fuel Tuna’s High-Octane Diet</a><a href="#ref2" title="Jump back to footnote 2 in the text."> ↩</a>
-  </br>
-<a id="fn3" href="https://www.aboutseafood.com/tuna-council-3/tuna-species/">3. National Fisheries Institute: Tuna Species</a><a href="#ref3" title="Jump back to footnote 3 in the text."> ↩</a>
-</br>
-<a id="fn4"href="https://www.theguardian.com/environment/2015/sep/15/tuna-and-mackerel-populations-suffer-catastrophic-74-decline-research-shows">4. Tuna and mackerel populations suffer catastrophic 74% decline, research shows</a><a href="#ref4" title="Jump back to footnote 4 in the text."> ↩</a>
-</br>
-<a id="fn5"href="https://www.npr.org/sections/thesalt/2017/09/01/547903557/countries-pledge-to-recover-dwindling-pacific-bluefin-tuna-population">5. NPR: Countries Pledge To Recover Dwindling Pacific Bluefin Tuna Population</a><a href="#ref5" title="Jump back to footnote 5 in the text.">  ↩</a>
-</br>
-<a id="fn6"href="https://nsidc.org/data/modis/terra_aqua_differences">6. NASA Distributed Active Archive Center at NSIDC: MODIS Data</a><a href="#ref6" title="Jump back to footnote 6 in the text."> ↩</a>
-</br>
-<a id="fn7" href="https://modis.gsfc.nasa.gov/about/">7. NASA: MODIS About</a><a href="#ref7" title="Jump back to footnote 7 in the text."> ↩</a>
-</br>
-<a id="fn8"href="https://modis.gsfc.nasa.gov/data/dataprod/nontech/MOD1.php">8. NASA: MODIS Data Product Non-Technical Description - MOD 1</a><a href="#ref8" title="Jump back to footnote 8 in the text."> ↩</a>
-</br>
-</br>
-<t>Additional Reading:</t>
-</br>
-<a href="http://www.incois.gov.in/documents/TechnicalReports/ESSO-INCOIS-ASG-TR-02-2015.pdf">Utility of Sea Surface Height anomaly (SSHa)
-  in determination of Potential Fishing Zones</a>
-</br>
-<a href="https://earthdata.nasa.gov/user-resources/sensing-our-planet/shadowing-the-tuna-boats">Shadowing the Tuna Boats: Logbooks, Satellites, and Game Theory Help Steward Tuna in the Pacific</a>
-</br>
-<a href="http://www.spc.int/coastfish/en/home-pages/386-a-beginners-guide-to-using-remote-sensing-for-offshore-tuna-fishing.html">A Beginner’s Guide to Using Remote Sensing for Offshore Tuna Fishing
-</a>
-</br>
-<a href="https://ec.europa.eu/jrc/sites/jrcsh/files/jrc_20111121_newsrelease_tuna_en.pdf">European Commision's Joint Research Centre: Satellite Data Can Help Protect Bluefin Tuna</a>
-</br>
-<a href="https://blog.conservation.org/2016/01/with-climate-change-pacific-tuna-economy-enters-uncharted-waters/">With Climate Change, Pacific Tuna Economy Enters Uncharted Waters </a>
-</br>
-<a href="http://www.ijetae.com/files/Volume4Issue2/IJETAE_0214_105.pdf">Using Remote Sensing Data for Yellowfin Tuna Fishing Ground Forecasting in Vietnamese Offshore Areas </a>
-</br>
-<a href="https://pdfs.semanticscholar.org/1f2a/91d550c4b5cb6e241067cdfef77543982bc6.pdf">The Efficiency of Using Remote Sensing for Fisheries Enforcement: Application to the Mediterranean Bluefin Tuna Fishery</a>
-</br>
-<a href="http://www2.nsysu.edu.tw/ets486/web/LiuCT%20tuna%202004.pdf">Application of Satellite Remote Sensing on the Tuna Fishery of Eastern Tropical Pacific</a>
-</br>
-</br>
-<t>Background Image Credits:</t>
-</br>
-<a href="http://tvblogs.nationalgeographic.com/files/2015/04/Ep404_007_WickedTunaIV.jpg">National Geographic: Wicked Tuna - Harpoon Hellraising</a>
-</br>
-<a href="https://www.nasa.gov/images/content/107324main_map.jpg">NASA: The Mathematical Ocean: Deriving Planetary Health from Tiny Ocean Plants </a>
-</br>
-<a href="https://earthobservatory.nasa.gov/IOTD/view.php?id=39863">NASA: Flying Steady: Mission Control Tunes Up Aqua's Orbit </a>
-</br>
-<a href="https://1pl6pt2k9xw127c0bx3rl22s-wpengine.netdna-ssl.com/wp-content/gallery/tuna/Itano_ITAN0_IMG_1249.jpg">Tuna School: International Seafood Sustainability Foundation</a>
-</br>
-<a href="http://www.oliverstrewe.com/page/managed_code/uploads/Frozen_tuna_Tsukiji_Market_Tokyo_full.jpg">Tsukiji Market Tokyo: Oliver Strewe Photography</a>
-</br>
-
-</footer>
- 
+ <!-- Load Esri Leaflet from CDN -->
+  <script src="https://unpkg.com/esri-leaflet@2.3.1/dist/esri-leaflet.js"
+  integrity="sha512-Np+ry4Dro5siJ1HZ0hTwn2jsmu/hMNrYw1EIK9EjsEVbDge4AaQhjeTGRg2ispHg7ZgDMVrSDjNrzH/kAO9Law=="
+  crossorigin=""></script>
 
 <script>
-  
+ var map = L.map('map').setView([42.642, -70.848366], 11);
 
+ var icon = L.icon({
+    iconUrl: 'https://icon-library.net/images/map-pin-icon-png/map-pin-icon-png-22.jpg',
+    iconSize: [35,35],
+    //iconAnchor: [0,0],
+    popupAnchor: [0, 0]
+  });
 
-// Change style of navbar on scroll
-window.onscroll = function() {myFunction()};
-function myFunction() {
-    var navbar = document.getElementById("myNavbar");
-    if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-        navbar.className = "w3-bar" + " w3-card" + " w3-animate-top" + " w3-white";
-    } else {
-        navbar.className = navbar.className.replace(" w3-card w3-animate-top w3-white", "");
+// add GB Reservations (red dots)
+L.esri.featureLayer({
+url: 'https://services7.arcgis.com/GsGEUpSV5zMcIXVw/arcgis/rest/services/GB_layers/FeatureServer/3',
+pointToLayer: function (geojson, latlng) {
+      return L.marker(latlng, {
+        icon: icon
+      });
     }
-}
+  }).addTo(map);
 
-// Used to toggle the menu on small screens when clicking on the menu button
-function toggleFunction() {
-    var x = document.getElementById("navDemo");
-    if (x.className.indexOf("w3-show") == -1) {
-        x.className += " w3-show";
-    } else {
-        x.className = x.className.replace(" w3-show", "");
-    }
-}
- //slideshow javascript// 
-var slideIndex = 1;
-showDivs(slideIndex);
 
-function plusDivs(n) {
-  showDivs(slideIndex += n);
-}
+// add GB Properties
+L.esri.featureLayer({
+url: 'https://services7.arcgis.com/GsGEUpSV5zMcIXVw/ArcGIS/rest/services/GB_layers/FeatureServer/0',
+simplifyFactor: 0.5,
+precision: 5,
+style: function (feature) {
+        return { color: '#000000', opacity: 0.0, fillColor: '#518A38', fillOpacity: 0.95, weight: 1 };}
+  }).addTo(map);
+// add GB Protected - Private Land (CRs)
+  L.esri.featureLayer({
+url: 'https://services7.arcgis.com/GsGEUpSV5zMcIXVw/ArcGIS/rest/services/GB_layers/FeatureServer/1',
+simplifyFactor: 0.5,
+precision: 5,
+style: function (feature) {
+        return { color: '#000000', opacity: 0.0, fillColor: '#78B45B', fillOpacity: 0.95, weight: 1 };}
+  }).addTo(map);
+// add Greenbelt Protected (OS_GB_Assist_CR_OS_popups)
+L.esri.featureLayer({
+url: 'https://services7.arcgis.com/GsGEUpSV5zMcIXVw/arcgis/rest/services/OS_layers/FeatureServer/0',
+simplifyFactor: 0.5,
+precision: 5,
+style: function (feature) {
+        return { color: '#000000', opacity: 0.0, fillColor: '#78B45B', fillOpacity: 0.95, weight: 1 };}
+  }).addTo(map);
+// add Other Protected Land
+L.esri.featureLayer({
+url: 'https://services7.arcgis.com/GsGEUpSV5zMcIXVw/arcgis/rest/services/OS_layers/FeatureServer/4',
+simplifyFactor: 0.5,
+precision: 5,
+style: function (feature) {
+        return { color: '#000000', opacity: 0.0, fillColor: '#94C27A', fillOpacity: 0.7, weight: 1 };}
+  }).addTo(map);
 
-function showDivs(n) {
-  var i;
-  var x = document.getElementsByClassName("mySlides");
-  if (n > x.length) {slideIndex = 1}    
-  if (n < 1) {slideIndex = x.length}
-  for (i = 0; i < x.length; i++) {
-     x[i].style.display = "none";  
-  }
-  x[slideIndex-1].style.display = "block";  
-}
-  
-  
-  
-   //chlorophyll video playback speed//
-  
-  var vid = document.getElementById("mapvid");
-vid.playbackRate = 2.5;
-  
-   //chlorophyll video playback speed//
-  
-  var vid = document.getElementById("modisvid");
-vid.playbackRate = .5;
-  
-    var vid = document.getElementById("SSAvid");
-vid.playbackRate = .5;
-  
+// add Other Trails
+var Othertrails = L.esri.featureLayer({
+    url: 'https://services7.arcgis.com/GsGEUpSV5zMcIXVw/arcgis/rest/services/OS_layers/FeatureServer/5',
+    style: function (feature) {
+        return { color: '#D96009', weight: 2 , opacity: 0.6, dashArray: [2, 6, 6 , 6]};}
+  }).addTo(map);
+
+// add GB Trails
+var GBtrails = L.esri.featureLayer({
+    url: 'https://services7.arcgis.com/GsGEUpSV5zMcIXVw/ArcGIS/rest/services/GB_layers/FeatureServer/4',
+    style: function (feature) {
+        return { color: '#A80000', weight: 2 , dashArray: [2, 6, 6 , 6]};}
+  }).addTo(map);
+
+// add Basemap
+ L.esri.basemapLayer('Gray').addTo(map);
+
+//  add location marker
+ var marker;
+
+
+!function(t,i){"function"==typeof define&&define.amd?define(["leaflet"],t):"object"==typeof exports&&(void 0!==i&&i.L?module.exports=t(L):module.exports=t(require("leaflet"))),void 0!==i&&i.L&&(i.L.Control.Locate=t(L))}(function(h){var o=function(i,o,t){(t=t.split(" ")).forEach(function(t){h.DomUtil[i].call(this,o,t)})},i=function(t,i){o("addClass",t,i)},s=function(t,i){o("removeClass",t,i)},t=h.Marker.extend({initialize:function(t,i){h.Util.setOptions(this,i),this._latlng=t,this.createIcon()},createIcon:function(){var t=this.options,i="";void 0!==t.color&&(i+="stroke:"+t.color+";"),void 0!==t.weight&&(i+="stroke-width:"+t.weight+";"),void 0!==t.fillColor&&(i+="fill:"+t.fillColor+";"),void 0!==t.fillOpacity&&(i+="fill-opacity:"+t.fillOpacity+";"),void 0!==t.opacity&&(i+="opacity:"+t.opacity+";");var o=this._getIconSVG(t,i);this._locationIcon=h.divIcon({className:o.className,html:o.svg,iconSize:[o.w,o.h]}),this.setIcon(this._locationIcon)},_getIconSVG:function(t,i){var o=t.radius,s=o+t.weight,e=2*s;return{className:"leaflet-control-locate-location",svg:'<svg xmlns="http://www.w3.org/2000/svg" width="'+e+'" height="'+e+'" version="1.1" viewBox="-'+s+" -"+s+" "+e+" "+e+'"><circle r="'+o+'" style="'+i+'" /></svg>',w:e,h:e}},setStyle:function(t){h.Util.setOptions(this,t),this.createIcon()}}),e=t.extend({initialize:function(t,i,o){h.Util.setOptions(this,o),this._latlng=t,this._heading=i,this.createIcon()},setHeading:function(t){this._heading=t},_getIconSVG:function(t,i){var o=t.radius,s=t.width+t.weight,e=2*(o+t.depth+t.weight),n="M0,0 l"+t.width/2+","+t.depth+" l-"+s+",0 z";return{className:"leaflet-control-locate-heading",svg:'<svg xmlns="http://www.w3.org/2000/svg" width="'+s+'" height="'+e+'" version="1.1" viewBox="-'+s/2+" 0 "+s+" "+e+'" style="'+("transform: rotate("+this._heading+"deg)")+'"><path d="'+n+'" style="'+i+'" /></svg>',w:s,h:e}}}),n=h.Control.extend({options:{position:"topleft",layer:void 0,setView:"untilPanOrZoom",keepCurrentZoomLevel:!1,getLocationBounds:function(t){return t.bounds},flyTo:!1,clickBehavior:{inView:"stop",outOfView:"setView",inViewNotFollowing:"inView"},returnToPrevBounds:!1,cacheLocation:!0,drawCircle:!0,drawMarker:!0,showCompass:!0,markerClass:t,compassClass:e,circleStyle:{className:"leaflet-control-locate-circle",color:"#136AEC",fillColor:"#136AEC",fillOpacity:.15,weight:0},markerStyle:{className:"leaflet-control-locate-marker",color:"#fff",fillColor:"#2A93EE",fillOpacity:1,weight:3,opacity:1,radius:9},compassStyle:{fillColor:"#2A93EE",fillOpacity:1,weight:0,color:"#fff",opacity:1,radius:9,width:9,depth:6},followCircleStyle:{},followMarkerStyle:{},followCompassStyle:{},icon:"fa fa-map-marker",iconLoading:"fa fa-spinner fa-spin",iconElementTag:"span",circlePadding:[0,0],metric:!0,createButtonCallback:function(t,i){var o=h.DomUtil.create("a","leaflet-bar-part leaflet-bar-part-single",t);return o.title=i.strings.title,{link:o,icon:h.DomUtil.create(i.iconElementTag,i.icon,o)}},onLocationError:function(t,i){alert(t.message)},onLocationOutsideMapBounds:function(t){t.stop(),alert(t.options.strings.outsideMapBoundsMsg)},showPopup:!0,strings:{title:"Show me where I am",metersUnit:"meters",feetUnit:"feet",popup:"You are within {distance} {unit} from this point",outsideMapBoundsMsg:"You seem located outside the boundaries of the map"},locateOptions:{maxZoom:1/0,watch:!0,setView:!1}},initialize:function(t){for(var i in t)"object"==typeof this.options[i]?h.extend(this.options[i],t[i]):this.options[i]=t[i];this.options.followMarkerStyle=h.extend({},this.options.markerStyle,this.options.followMarkerStyle),this.options.followCircleStyle=h.extend({},this.options.circleStyle,this.options.followCircleStyle),this.options.followCompassStyle=h.extend({},this.options.compassStyle,this.options.followCompassStyle)},onAdd:function(t){var i=h.DomUtil.create("div","leaflet-control-locate leaflet-bar leaflet-control");this._layer=this.options.layer||new h.LayerGroup,this._layer.addTo(t),this._event=void 0,this._compassHeading=null,this._prevBounds=null;var o=this.options.createButtonCallback(i,this.options);return this._link=o.link,this._icon=o.icon,h.DomEvent.on(this._link,"click",h.DomEvent.stopPropagation).on(this._link,"click",h.DomEvent.preventDefault).on(this._link,"click",this._onClick,this).on(this._link,"dblclick",h.DomEvent.stopPropagation),this._resetVariables(),this._map.on("unload",this._unload,this),i},_onClick:function(){this._justClicked=!0;var t=this._isFollowing();if(this._userPanned=!1,this._userZoomed=!1,this._active&&!this._event)this.stop();else if(this._active&&void 0!==this._event){var i=this.options.clickBehavior,o=i.outOfView;switch(this._map.getBounds().contains(this._event.latlng)&&(o=t?i.inView:i.inViewNotFollowing),i[o]&&(o=i[o]),o){case"setView":this.setView();break;case"stop":if(this.stop(),this.options.returnToPrevBounds)(this.options.flyTo?this._map.flyToBounds:this._map.fitBounds).bind(this._map)(this._prevBounds)}}else this.options.returnToPrevBounds&&(this._prevBounds=this._map.getBounds()),this.start();this._updateContainerStyle()},start:function(){this._activate(),this._event&&(this._drawMarker(this._map),this.options.setView&&this.setView()),this._updateContainerStyle()},stop:function(){this._deactivate(),this._cleanClasses(),this._resetVariables(),this._removeMarker()},stopFollowing:function(){this._userPanned=!0,this._updateContainerStyle(),this._drawMarker()},_activate:function(){this._active||(this._map.locate(this.options.locateOptions),this._active=!0,this._map.on("locationfound",this._onLocationFound,this),this._map.on("locationerror",this._onLocationError,this),this._map.on("dragstart",this._onDrag,this),this._map.on("zoomstart",this._onZoom,this),this._map.on("zoomend",this._onZoomEnd,this),this.options.showCompass&&("ondeviceorientationabsolute"in window?h.DomEvent.on(window,"deviceorientationabsolute",this._onDeviceOrientation,this):"ondeviceorientation"in window&&h.DomEvent.on(window,"deviceorientation",this._onDeviceOrientation,this)))},_deactivate:function(){this._map.stopLocate(),this._active=!1,this.options.cacheLocation||(this._event=void 0),this._map.off("locationfound",this._onLocationFound,this),this._map.off("locationerror",this._onLocationError,this),this._map.off("dragstart",this._onDrag,this),this._map.off("zoomstart",this._onZoom,this),this._map.off("zoomend",this._onZoomEnd,this),this.options.showCompass&&(this._compassHeading=null,"ondeviceorientationabsolute"in window?h.DomEvent.off(window,"deviceorientationabsolute",this._onDeviceOrientation,this):"ondeviceorientation"in window&&h.DomEvent.off(window,"deviceorientation",this._onDeviceOrientation,this))},setView:function(){if(this._drawMarker(),this._isOutsideMapBounds())this._event=void 0,this.options.onLocationOutsideMapBounds(this);else if(this.options.keepCurrentZoomLevel){(t=this.options.flyTo?this._map.flyTo:this._map.panTo).bind(this._map)([this._event.latitude,this._event.longitude])}else{var t=this.options.flyTo?this._map.flyToBounds:this._map.fitBounds;this._ignoreEvent=!0,t.bind(this._map)(this.options.getLocationBounds(this._event),{padding:this.options.circlePadding,maxZoom:this.options.locateOptions.maxZoom}),h.Util.requestAnimFrame(function(){this._ignoreEvent=!1},this)}},_drawCompass:function(){if(this._event){var t=this._event.latlng;if(this.options.showCompass&&t&&null!==this._compassHeading){var i=this._isFollowing()?this.options.followCompassStyle:this.options.compassStyle;this._compass?(this._compass.setLatLng(t),this._compass.setHeading(this._compassHeading),this._compass.setStyle&&this._compass.setStyle(i)):this._compass=new this.options.compassClass(t,this._compassHeading,i).addTo(this._layer)}!this._compass||this.options.showCompass&&null!==this._compassHeading||(this._compass.removeFrom(this._layer),this._compass=null)}},_drawMarker:function(){void 0===this._event.accuracy&&(this._event.accuracy=0);var t,i,o=this._event.accuracy,s=this._event.latlng;if(this.options.drawCircle){var e=this._isFollowing()?this.options.followCircleStyle:this.options.circleStyle;this._circle?this._circle.setLatLng(s).setRadius(o).setStyle(e):this._circle=h.circle(s,o,e).addTo(this._layer)}if(i=this.options.metric?(t=o.toFixed(0),this.options.strings.metersUnit):(t=(3.2808399*o).toFixed(0),this.options.strings.feetUnit),this.options.drawMarker){var n=this._isFollowing()?this.options.followMarkerStyle:this.options.markerStyle;this._marker?(this._marker.setLatLng(s),this._marker.setStyle&&this._marker.setStyle(n)):this._marker=new this.options.markerClass(s,n).addTo(this._layer)}this._drawCompass();var a=this.options.strings.popup;this.options.showPopup&&a&&this._marker&&this._marker.bindPopup(h.Util.template(a,{distance:t,unit:i}))._popup.setLatLng(s),this.options.showPopup&&a&&this._compass&&this._compass.bindPopup(h.Util.template(a,{distance:t,unit:i}))._popup.setLatLng(s)},_removeMarker:function(){this._layer.clearLayers(),this._marker=void 0,this._circle=void 0},_unload:function(){this.stop(),this._map.off("unload",this._unload,this)},_setCompassHeading:function(t){!isNaN(parseFloat(t))&&isFinite(t)?(t=Math.round(t),this._compassHeading=t,h.Util.requestAnimFrame(this._drawCompass,this)):this._compassHeading=null},_onCompassNeedsCalibration:function(){this._setCompassHeading()},_onDeviceOrientation:function(t){this._active&&(t.webkitCompassHeading?this._setCompassHeading(t.webkitCompassHeading):t.absolute&&t.alpha&&this._setCompassHeading(360-t.alpha))},_onLocationError:function(t){3==t.code&&this.options.locateOptions.watch||(this.stop(),this.options.onLocationError(t,this))},_onLocationFound:function(t){if((!this._event||this._event.latlng.lat!==t.latlng.lat||this._event.latlng.lng!==t.latlng.lng||this._event.accuracy!==t.accuracy)&&this._active){switch(this._event=t,this._drawMarker(),this._updateContainerStyle(),this.options.setView){case"once":this._justClicked&&this.setView();break;case"untilPan":this._userPanned||this.setView();break;case"untilPanOrZoom":this._userPanned||this._userZoomed||this.setView();break;case"always":this.setView()}this._justClicked=!1}},_onDrag:function(){this._event&&!this._ignoreEvent&&(this._userPanned=!0,this._updateContainerStyle(),this._drawMarker())},_onZoom:function(){this._event&&!this._ignoreEvent&&(this._userZoomed=!0,this._updateContainerStyle(),this._drawMarker())},_onZoomEnd:function(){this._event&&this._drawCompass(),this._event&&!this._ignoreEvent&&this._marker&&!this._map.getBounds().pad(-.3).contains(this._marker.getLatLng())&&(this._userPanned=!0,this._updateContainerStyle(),this._drawMarker())},_isFollowing:function(){return!!this._active&&("always"===this.options.setView||("untilPan"===this.options.setView?!this._userPanned:"untilPanOrZoom"===this.options.setView?!this._userPanned&&!this._userZoomed:void 0))},_isOutsideMapBounds:function(){return void 0!==this._event&&(this._map.options.maxBounds&&!this._map.options.maxBounds.contains(this._event.latlng))},_updateContainerStyle:function(){this._container&&(this._active&&!this._event?this._setClasses("requesting"):this._isFollowing()?this._setClasses("following"):this._active?this._setClasses("active"):this._cleanClasses())},_setClasses:function(t){"requesting"==t?(s(this._container,"active following"),i(this._container,"requesting"),s(this._icon,this.options.icon),i(this._icon,this.options.iconLoading)):"active"==t?(s(this._container,"requesting following"),i(this._container,"active"),s(this._icon,this.options.iconLoading),i(this._icon,this.options.icon)):"following"==t&&(s(this._container,"requesting"),i(this._container,"active following"),s(this._icon,this.options.iconLoading),i(this._icon,this.options.icon))},_cleanClasses:function(){h.DomUtil.removeClass(this._container,"requesting"),h.DomUtil.removeClass(this._container,"active"),h.DomUtil.removeClass(this._container,"following"),s(this._icon,this.options.iconLoading),i(this._icon,this.options.icon)},_resetVariables:function(){this._active=!1,this._justClicked=!1,this._userPanned=!1,this._userZoomed=!1}});return h.control.locate=function(t){return new h.Control.Locate(t)},n},window);
+L.control.locate().addTo(map);
 
 </script>
+
+ 
+
 </body>
 </html>
